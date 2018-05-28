@@ -1,33 +1,53 @@
-<?php
-	$jsondata = file_get_contents("movies.json");
-	$json = json_decode($jsondata, true);
-?>
-<!DOCTYPE html>
+
 <html>
-<head>
-<style>
-	h1 {texxt-aligh:center;}
-	h4 {margin: 0;padding: 5px; background: #f4f4f4;}
-	li {list-style: none; padding-left: 5px;}
-	#container{width: 600px;margin: auto;overflow: hidden;}
-</style>
-	
-	<title> My Movies</title>
-
-</head>
-
 <body>
-	<div id="container">
-	<h1>My Favorite Movies</h1>
-		<ul>
-		<?php
-			foreach($json['movies'] as $key => $value){
-				echo '<h4>'.$value{'title'}.'</h4>';
-				echo '<li> Year: '.$value{'year'}.'</li>';
-				echo '<li> Genre: '.$value{'genre'}.'</li>';
-				echo '<li> director: '.$value{'director'}.'</li>';
-			}
-		?>
-		</ul>
-	</div>
+<form action="" method="post">
+<fieldset>
+<h1>Leap Year or Not</h1>
+<p>Input number: 
+      <input type="text" name="Leapyear" />
+      <input type="submit" />
+
+</fieldset>
+</form>
+</html>
 </body>
+
+
+
+<?php
+abstract class Leapyear{
+
+   public $input;
+   public $answer = 'Leap year';
+   public $notAnswer = 'Not Leapyear';
+
+   public function LY(){
+      if( (0 == $this->input % 4) and (0 != $this->input % 100) or (0 == $this->input % 400) ){
+               return $this->answer;
+            } else {
+               return $this->notAnswer;     
+         }
+      }
+}
+
+class LYA extends Leapyear{
+   public function LY(){
+      return parent::LY();
+   }
+}
+
+$leapyear = new LYA;
+$leapyear->input = $_POST['Leapyear'];
+if (!empty($_POST['Leapyear']))  {
+   if(is_numeric($_POST['Leapyear'])){
+      echo $leapyear->LY();
+      }  
+}
+
+else {
+   echo "";
+} 
+
+
+?>
